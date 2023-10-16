@@ -10,13 +10,17 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepo productRepo;
+    private final IdService idService;
 
     public List<Product> getAllProducts() {
         return productRepo.findAll();
     }
 
-    public Product addProduct(Product product) {
-        return productRepo.save(product);
+    public Product addProduct(NewProduct product) {
+        return productRepo.save(new Product(
+                idService.randomId(),
+                product.name()
+        ));
     }
 
     public Product findProductById(String id) {
@@ -28,9 +32,9 @@ public class ProductService {
     }
 
     public Product updateProductById(String id) {
-        Product legacyProduct = productRepo.findById(id).orElseThrow();
-        Product updatedProduct = new Product(null, legacyProduct.name());
-        productRepo.delete(legacyProduct);
+        Product legacyProduct = findProductById(id);
+        Product updatedProduct = new Product(idService.randomId(), legacyProduct.name());
+        removeProductById(id);
         return productRepo.save(updatedProduct);
     }
 }

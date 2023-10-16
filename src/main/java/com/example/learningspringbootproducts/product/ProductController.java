@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,10 +18,7 @@ public class ProductController {
 
     @PostMapping
     public Product addProduct(@RequestBody NewProduct product) {
-        return productService.addProduct(new Product(
-                null,
-                product.name()
-        ));
+        return productService.addProduct(product);
     }
 
     @GetMapping("/{id}")
