@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -12,14 +13,24 @@ public class ProductService {
     private final ProductRepo productRepo;
     private final IdService idService;
 
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(double price) {
+        if(price != 0) {
+            return productRepo.findAll().stream()
+                .filter(product -> product.price() < price)
+                .collect(Collectors.toList());
+        }
         return productRepo.findAll();
+    }
+
+    public List<Product> getAllProductsBynPrice(double price) {
+        return productRepo.findProductsByPriceLessThanEqual(price);
     }
 
     public Product addProduct(NewProduct product) {
         return productRepo.save(new Product(
                 idService.randomId(),
-                product.name()
+                product.name(),
+                product.price()
         ));
     }
 
@@ -33,7 +44,7 @@ public class ProductService {
 
     public Product updateProductById(String id) {
         Product legacyProduct = findProductById(id);
-        Product updatedProduct = new Product(idService.randomId(), legacyProduct.name());
+        Product updatedProduct = new Product(idService.randomId(), legacyProduct.name(), legacyProduct.price());
         removeProductById(id);
         return productRepo.save(updatedProduct);
     }

@@ -12,18 +12,23 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
-    }
-
-    @PostMapping
-    public Product addProduct(@RequestBody NewProduct product) {
-        return productService.addProduct(product);
+    public List<Product> getAllProducts(@RequestParam(name="price", required = false, defaultValue = "0.0") double price) {
+        return productService.getAllProducts(price);
     }
 
     @GetMapping("/{id}")
     public Product findProductById(@PathVariable String id) {
         return productService.findProductById(id);
+    }
+
+    @GetMapping("/price/{price}")
+    public List<Product> getAllProductsBynPrice(@PathVariable double price) {
+        return productService.getAllProductsBynPrice(price);
+    }
+
+    @PostMapping
+    public Product addProduct(@RequestBody NewProduct product) {
+        return productService.addProduct(product);
     }
 
     @DeleteMapping("/{id}")
@@ -35,6 +40,4 @@ public class ProductController {
     public void updateProductById(@PathVariable String id) {
         productService.updateProductById(id);
     }
-
-
 }
