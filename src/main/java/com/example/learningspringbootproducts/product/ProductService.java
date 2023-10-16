@@ -19,5 +19,11 @@ public class ProductService {
         return productRepo.save(product);
     }
 
+    public Product findProductById(String id) {
+        return productRepo.findById(id).orElseThrow();
+    }
 
+    public void removeProductById(String id) {
+        productRepo.deleteById(id);
+    }
 }

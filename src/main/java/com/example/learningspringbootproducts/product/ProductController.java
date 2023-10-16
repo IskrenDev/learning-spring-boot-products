@@ -25,5 +25,15 @@ public class ProductController {
         ));
     }
 
+    @GetMapping("/{id}")
+    public Product findProductById(@PathVariable String id) {
+        return productService.findProductById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void removeProductById(@PathVariable String id) {
+        productService.removeProductById(id);
+    }
+
 
 }
