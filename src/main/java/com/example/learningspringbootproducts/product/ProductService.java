@@ -26,4 +26,11 @@ public class ProductService {
     public void removeProductById(String id) {
         productRepo.deleteById(id);
     }
+
+    public Product updateProductById(String id) {
+        Product legacyProduct = productRepo.findById(id).orElseThrow();
+        Product updatedProduct = new Product(null, legacyProduct.name());
+        productRepo.delete(legacyProduct);
+        return productRepo.save(updatedProduct);
+    }
 }
