@@ -63,16 +63,18 @@ class ProductServiceTest {
     }
 
     @Test
-    void updateProductById() {
-        //GIVEN
-        Product expected = new Product("1", "name", 21.00);
-        //Product testProduct = new Product("1", "name", 23.00);
+    void testUpdateProductById() {
+        Product legacyProduct = new Product("1", "itemName", 100.0);
+        Product updatedProduct = new Product("1", "itemName", 200.0);
 
-        //WHEN
-        //productRepo.save(testProduct);
-        when(productRepo.save(expected)).thenReturn(expected);
-        Product actual = productService.updateProductById(expected.id(), expected.price());
-        //THEN
-        assertEquals(expected, actual);
+        when(productRepo.findById(legacyProduct.id())).thenReturn(Optional.of(legacyProduct));
+        when(productRepo.save(any(Product.class))).thenReturn(updatedProduct);
+
+        Product result = productService.updateProductById("1", 200.0);
+
+        verify(productRepo, times(1)).findById(legacyProduct.id());
+        verify(productRepo, times(1)).save(any(Product.class));
+
+        assertEquals(updatedProduct, result);
     }
 }
