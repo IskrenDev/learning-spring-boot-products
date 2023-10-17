@@ -3,6 +3,7 @@ package com.example.learningspringbootproducts.product;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,6 +33,15 @@ class ProductServiceTest {
 
     @Test
     void findProductById() {
+        //GIVEN
+        Product expected = new Product("1", "name", 23.00);
+
+        //WHEN
+
+        when(productRepo.findById("1")).thenReturn(Optional.of(expected));
+        Product actual = productService.findProductById("1");
+        //THEN
+        assertEquals(expected, actual);
     }
 
     @Test
