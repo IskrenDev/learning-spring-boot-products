@@ -13,12 +13,7 @@ public class ProductService {
     private final ProductRepo productRepo;
     private final IdService idService;
 
-    public List<Product> getAllProducts(double price) {
-        if(price != 0) {
-            return productRepo.findAll().stream()
-                .filter(product -> product.price() < price)
-                .collect(Collectors.toList());
-        }
+    public List<Product> getAllProducts() {
         return productRepo.findAll();
     }
 

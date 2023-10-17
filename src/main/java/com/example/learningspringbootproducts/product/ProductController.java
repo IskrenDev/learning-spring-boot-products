@@ -13,7 +13,7 @@ public class ProductController {
 
     @GetMapping
     public List<Product> getAllProducts(@RequestParam(name="price", required = false, defaultValue = "0.0") double price) {
-        return productService.getAllProducts(price);
+        return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
