@@ -37,10 +37,13 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
-    public Product updateProductById(String id) {
+    public Product updateProductById(String id, double newPrice) {
         Product legacyProduct = findProductById(id);
-        Product updatedProduct = new Product(idService.randomId(), legacyProduct.name(), legacyProduct.price());
-        removeProductById(id);
+        Product updatedProduct = new Product(legacyProduct.id(), legacyProduct.name(), newPrice);
         return productRepo.save(updatedProduct);
+    }
+
+    public Product updateProductPriceById(String id, double newPrice) {
+        return productRepo.updateProductPriceById(id, newPrice);
     }
 }

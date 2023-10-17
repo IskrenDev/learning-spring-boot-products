@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public void updateProductById(@PathVariable String id) {
-        productService.updateProductById(id);
+    public void updateProductById(@PathVariable String id, double price) {
+        productService.updateProductById(id, price);
     }
 }
